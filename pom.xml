@@ -15,7 +15,7 @@
 	<name>Ultimate Systems Recruitment Task</name>
 	<description>Recruitment task </description>
 	<properties>
-		<java.version>11</java.version>
+		<java.version>13</java.version>
 	</properties>
 	<dependencies>
 		<dependency>

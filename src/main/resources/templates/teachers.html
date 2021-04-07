@@ -7,31 +7,44 @@
 <body>
 <div align="center">
 
-    <h1>Nauczyciele</h1>
-    <a th:href="@{/new}">Dodaj nowego Nauczyciela</a>
+    <h1>Wykładowcy</h1>
+    <a th:href="@{/new}">Dodaj Nowego Wykładowcę</a>
 
-    <br/><br/>
+    <br/>
+    <br/>
+    <div>
+        <form th:action="@{/teachers/page/1}">
+            <input type="hidden" name="sortField" th:value="${sortField}">
+            <input type="hidden" name="sortDir" th:value="${sortDir}">
+            Filtruj: <input type="text" name="keyword" id="keyword" size="50" th:value="${keyword}" required />
+            &nbsp;
+            <input type="submit" value="Wyszukaj wszystkich Studentów Wykładowcy" />
+            &nbsp;
+            <input type="button" value="Wyczyść Filtr" id="btnClear" onclick="clearSearch()" />&nbsp;
+        </form>
+    </div>
+    <br/>
 
     <table border="1" cellpadding="15">
         <thead>
         <tr>
             <th>
-                <a th:href="@{'/teachers/page/' + ${currentPage} + '?sortField=id&sortDir=' + ${reverseSortDir}}">nr ID</a>
+                <a th:href="@{'/teachers/page/' + ${currentPage} + '?sortField=id&sortDir=' + ${reverseSortDir}+ ${keyword != null ?'&keyword=' + keyword :''}}">nr ID</a>
             </th>
             <th>
-                <a th:href="@{'/teachers/page/' + ${currentPage} + '?sortField=firstname&sortDir=' + ${reverseSortDir}}">Imię</a>
+                <a th:href="@{'/teachers/page/' + ${currentPage} + '?sortField=firstname&sortDir=' + ${reverseSortDir}+ ${keyword != null ?'&keyword=' + keyword :''}}">Imię</a>
             </th>
             <th>
-                <a th:href="@{'/teachers/page/' + ${currentPage} + '?sortField=lastname&sortDir=' + ${reverseSortDir}}">Nazwisko</a>
+                <a th:href="@{'/teachers/page/' + ${currentPage} + '?sortField=lastname&sortDir=' + ${reverseSortDir}+ ${keyword != null ?'&keyword=' + keyword :''}}">Nazwisko</a>
             </th>
             <th>
-                <a th:href="@{'/teachers/page/' + ${currentPage} + '?sortField=age&sortDir=' + ${reverseSortDir}}">Wiek</a>
+                <a th:href="@{'/teachers/page/' + ${currentPage} + '?sortField=age&sortDir=' + ${reverseSortDir}+ ${keyword != null ?'&keyword=' + keyword :''}}">Wiek</a>
             </th>
             <th>
-                <a th:href="@{'/teachers/page/' + ${currentPage} + '?sortField=email&sortDir=' + ${reverseSortDir}}">Email</a>
+                <a th:href="@{'/teachers/page/' + ${currentPage} + '?sortField=email&sortDir=' + ${reverseSortDir}+ ${keyword != null ?'&keyword=' + keyword :''}}">Email</a>
             </th>
             <th>
-                <a th:href="@{'/teachers/page/' + ${currentPage} + '?sortField=majoringIn&sortDir=' + ${reverseSortDir}}">Przedmiot</a>
+                <a th:href="@{'/teachers/page/' + ${currentPage} + '?sortField=majoringIn&sortDir=' + ${reverseSortDir}+ ${keyword != null ?'&keyword=' + keyword :''}}">Przedmiot</a>
             </th>
 
             <th>Narzędzia</th>
@@ -62,28 +75,34 @@
         Total Items: [[${totalItems}]]
         &nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp;
 
-        <a th:if="${currentPage > 1}" th:href="@{'/teachers/page/1' + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">First</a>
+        <a th:if="${currentPage > 1}" th:href="@{'/teachers/page/1' + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}+ ${keyword != null ?'&keyword=' + keyword :''}}">First</a>
         <span th:unless="${currentPage > 1}">First</span>
         &nbsp;&nbsp;
 
-        <a th:if="${currentPage > 1}" th:href="@{'/teachers/page/' + ${currentPage - 1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Previous</a>
+        <a th:if="${currentPage > 1}" th:href="@{'/teachers/page/' + ${currentPage - 1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}+ ${keyword != null ?'&keyword=' + keyword :''}}">Previous</a>
         <span th:unless="${currentPage > 1}">Previous</span>
 
         &nbsp;&nbsp;
 
         <span th:each="i: ${#numbers.sequence(1, totalPages)}">
-			<a th:if="${currentPage != i}" th:href="@{'/teachers/page/' + ${i} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">[[${i}]]</a>
+			<a th:if="${currentPage != i}" th:href="@{'/teachers/page/' + ${i} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ?'&keyword=' + keyword :''}}">[[${i}]]</a>
 			<span th:unless="${currentPage != i}">[[${i}]]</span>
 			&nbsp;
 		</span>
 
-        <a th:if="${currentPage < totalPages}" th:href="@{'/teachers/page/' + ${currentPage + 1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Next</a>
+        <a th:if="${currentPage < totalPages}"
+           th:href="@{'/teachers/page/' + ${currentPage + 1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}+ ${keyword != null ?'&keyword=' + keyword :''}}">Next</a>
         <span th:unless="${currentPage < totalPages}">Next</span>
         &nbsp;&nbsp;
 
-        <a th:if="${currentPage < totalPages}" th:href="@{'/teachers/page/' + ${totalPages} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Last</a>
+        <a th:if="${currentPage < totalPages}" th:href="@{'/teachers/page/' + ${totalPages} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}+ ${keyword != null ?'&keyword=' + keyword :''}}">Last</a>
         <span th:unless="${currentPage < totalPages}">Last</span>
     </div>
 </div>
+<script type="text/javascript">
+    function clearSearch() {
+        window.location = "[[@{/teachers}]]";
+    }
+</script>
 </body>
 </html>

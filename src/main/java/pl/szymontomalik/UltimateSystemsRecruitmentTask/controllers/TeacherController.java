@@ -21,35 +21,28 @@ public class TeacherController {
     private final StudentService studentService;
     private final ViewService service;
 
+    //listAllTeachers
     @RequestMapping("/teachers")
     public String viewTeacherList(Model model) {
-        return viewPageOfTeacherList(model, 1, "id", "asc");
+        return viewPageOfTeacherList(model, 1, "id", "asc", null);
     }
+
 
     @GetMapping("/teachers/page/{pageNum}")
     public String viewPageOfTeacherList(Model model, @PathVariable(name = "pageNum") int pageNum,
                                         @Param("sortField") String sortField,
-                                        @Param("sortDir") String sortDir) {
-        Page<Teacher> page = teacherService.listAll(pageNum, sortField, sortDir);
-        service.setViewAttributes(model, pageNum, sortField, sortDir, page);
-        return "teachers";
+                                        @Param("sortDir") String sortDir,
+                                        @Param("keyword") String keyword) {
+        if (keyword != null) {
+            Page<Student> page = studentService.listAllStudentByTeacherId(pageNum, sortField, sortDir, keyword);
+            service.setViewAttributes(model, pageNum, sortField, sortDir, page, keyword);
+            model.addAttribute("teacherName", keyword);
+            return "studentsByTeacherId";
+        } else {
+            Page<Teacher> page = teacherService.listAll(pageNum, sortField, sortDir);
+            service.setViewAttributes(model, pageNum, sortField, sortDir, page, null);
+            return "teachers";
+        }
+
     }
-
-    @RequestMapping("/student/{id}/teachers")
-    public String viewAllStudentsTeacher(Model model, @PathVariable(name = "id") Long studentId) {
-        return viewPageOfStudentsTeacher(model, studentId, 1, "id", "asc");
-    }
-
-    @RequestMapping("/student/{id}/teachers/page/{pageNum}")
-    public String viewPageOfStudentsTeacher(Model model, @PathVariable(name = "id") Long studentId, @PathVariable(name = "pageNum") int pageNum,
-                                            @Param("sortField") String sortField,
-                                            @Param("sortDir") String sortDir) {
-        Page<Teacher> page = teacherService.listAllTeacherByStudentId(studentId, pageNum, sortField, sortDir);
-        service.setViewAttributes(model, pageNum, sortField, sortDir, page);
-        Student student = studentService.get(studentId);
-        model.addAttribute("studentName", student.getFirstname() + " " + student.getLastname());
-        return "teachersByStudentId";
-    }
-
-
 }

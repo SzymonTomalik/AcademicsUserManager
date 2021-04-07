@@ -13,9 +13,9 @@ import pl.szymontomalik.UltimateSystemsRecruitmentTask.entities.Teacher;
 import pl.szymontomalik.UltimateSystemsRecruitmentTask.repositories.StudentRepository;
 import pl.szymontomalik.UltimateSystemsRecruitmentTask.repositories.TeacherRepository;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
-@Slf4j
 @Service
 @RequiredArgsConstructor
 public class StudentService {
@@ -23,26 +23,39 @@ public class StudentService {
     private final TeacherRepository teacherRepository;
 
     public Page<Student> listAll(int pageNum, String sortField, String sortDir) {
-        Pageable pageable = PageRequest.of(pageNum-1, 5, sortDir.equals("asc") ? Sort.by(sortField).ascending() : Sort.by(sortField).descending());
+        Pageable pageable = PageRequest.of(pageNum - 1, 5, sortDir.equals("asc") ? Sort.by(sortField).ascending() : Sort.by(sortField).descending());
         return studentRepository.findAll(pageable);
     }
-    public Page<Student> listAllStudentByTeacherId(Long teacherId, int pageNum, String sortField, String sortDir) {
-        Pageable pageable = PageRequest.of(pageNum-1, 5, sortDir.equals("asc") ? Sort.by(sortField).ascending() : Sort.by(sortField).descending());
-        Teacher teacher= teacherRepository.findById(teacherId).get();
-        Hibernate.initialize(teacher.getStudents());
-        List<Student> students = new ArrayList<>(List.copyOf(teacher.getStudents()));
-        List<Long> idList = new ArrayList<>();
-        for (Student s:students) {
-            idList.add(s.getId());
+
+    public Page<Student> listAllStudentByTeacherId(int pageNum, String sortField, String sortDir, String keyword) {
+        Pageable pageable = PageRequest.of(pageNum - 1, 5, sortDir.equals("asc") ? Sort.by(sortField).ascending() : Sort.by(sortField).descending());
+        if (keyword != null) {
+            List<Teacher> teacherList = teacherRepository.findAll(keyword);
+            List<Student> students = new ArrayList<>();
+            for (Teacher t : teacherList) {
+                Hibernate.initialize(t.getStudents());
+                for (Student s : t.getStudents()) {
+                    if (!students.contains(s))
+                        students.add(s);
+                }
+            }
+            List<Long> idList = new ArrayList<>();
+            for (Student s : students) {
+                idList.add(s.getId());
+            }
+            return studentRepository.findByIdIn(idList, pageable);
         }
-        return studentRepository.findByIdIn(idList,pageable);
+        return studentRepository.findAll(pageable);
     }
+
     public void save(Student student) {
         studentRepository.save(student);
     }
+
     public Student get(Long id) {
         return studentRepository.findById(id).get();
     }
+
     public void delete(Long id) {
         studentRepository.deleteById(id);
     }

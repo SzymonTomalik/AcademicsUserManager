@@ -8,7 +8,7 @@
 <body>
 <div align="center">
 
-    <h1>Wszyscy Studenci dla wyszukiwania: <p th:text="${teacherName}"></p></h1>
+    <h1>Wszyscy Studenci dla wyszukiwania: <p th:text="${keyword}"></p></h1>
 
 
     <br/>
@@ -16,11 +16,17 @@
         <form th:action="@{/teachers/page/1}">
             <input type="hidden" name="sortField" th:value="${sortField}">
             <input type="hidden" name="sortDir" th:value="${sortDir}">
-            Filtruj wg nauczyciela: <input type="text" name="keyword" id="keyword" size="50" th:value="${keyword}" required/>
-            &nbsp;
-            <input type="submit" value="Wyszukaj wszystkich Studentów Wykładowcy" />
-            &nbsp;
-            <input type="button" value="Wyczyść Filtr" id="btnClear" onclick="clearSearch()" />&nbsp;
+            Filtruj: <input type="text" name="keyword" id="keyword" size="50" th:value="${keyword}" required/>
+            &nbsp; <input type="submit" value="Szukaj"/>
+            &nbsp; <input type="button" value="Wyczyść Filtr" id="btnClear" onclick="clearSearch()"/>&nbsp;
+            <br>
+            <br>&nbsp;
+            <label>
+                <input type="radio" name="flag" value=1>
+            </label> Szukaj Wykładowcy
+            <label>
+                <input type="radio" name="flag" value=0 checked>
+            </label> Szukaj Wszystkich Studentów Wykładowcy
         </form>
     </div>
     <br/>
@@ -44,7 +50,7 @@
                 <a th:href="@{'/teachers/page/' + ${currentPage} + '?sortField=email&sortDir=' + ${reverseSortDir}+ ${keyword != null ?'&keyword=' + keyword :''}}">Email</a>
             </th>
             <th>
-                <a th:href="@{'/teachers/page/' + ${currentPage} + '?sortField=fieldOfStudt&sortDir=' + ${reverseSortDir}+ ${keyword != null ?'&keyword=' + keyword :''}}">Kierunek</a>
+                <a th:href="@{'/teachers/page/' + ${currentPage} + '?sortField=fieldOfStudy&sortDir=' + ${reverseSortDir}+ ${keyword != null ?'&keyword=' + keyword :''}}">Kierunek</a>
             </th>
 
             <th>Narzędzia</th>

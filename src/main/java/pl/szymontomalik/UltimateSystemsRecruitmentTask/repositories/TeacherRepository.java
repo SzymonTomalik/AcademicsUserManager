@@ -14,5 +14,7 @@ public interface TeacherRepository extends JpaRepository<Teacher, Long> {
 
     @Query("SELECT t FROM Teacher t WHERE CONCAT(t.firstname, ' ', t.lastname) LIKE %?1%")
     List<Teacher> findAll(String keyword);
+    @Query("SELECT t FROM Teacher t WHERE CONCAT(t.firstname, ' ', t.lastname) LIKE %?1%")
+    Page<Teacher> findAll(String keyword, Pageable pageable);
 
 }

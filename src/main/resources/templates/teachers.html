@@ -14,13 +14,20 @@
     <br/>
     <div>
         <form th:action="@{/teachers/page/1}">
+
             <input type="hidden" name="sortField" th:value="${sortField}">
             <input type="hidden" name="sortDir" th:value="${sortDir}">
-            Filtruj: <input type="text" name="keyword" id="keyword" size="50" th:value="${keyword}" required />
-            &nbsp;
-            <input type="submit" value="Wyszukaj wszystkich Studentów Wykładowcy" />
-            &nbsp;
-            <input type="button" value="Wyczyść Filtr" id="btnClear" onclick="clearSearch()" />&nbsp;
+            Filtruj: <input type="text" name="keyword" id="keyword" size="50" th:value="${keyword}" required/>
+            &nbsp; <input type="submit" value="Szukaj"/>
+            &nbsp; <input type="button" value="Wyczyść Filtr" id="btnClear" onclick="clearSearch()"/>
+            <br>
+            <br>&nbsp;
+            <label>
+                <input type="radio" name="flag" value=1 checked>
+            </label> Szukaj Wykładowcy
+            <label>
+                <input type="radio" name="flag" value=0>
+            </label> Szukaj Wszystkich Studentów Wykładowcy
         </form>
     </div>
     <br/>

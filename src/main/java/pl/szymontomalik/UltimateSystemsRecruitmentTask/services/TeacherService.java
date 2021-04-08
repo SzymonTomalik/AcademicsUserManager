@@ -36,6 +36,13 @@ public class TeacherService {
         }
         return teacherRepository.findByIdIn(idList,pageable);
     }
+    public Page<Teacher>listAllTeachersByKeyword(int pageNum, String sortField, String sortDir, String keyword) {
+        Pageable pageable = PageRequest.of(pageNum - 1, 5, sortDir.equals("asc") ? Sort.by(sortField).ascending() : Sort.by(sortField).descending());
+        if (keyword != null) {
+            return teacherRepository.findAll(keyword, pageable);
+        }
+        return teacherRepository.findAll(pageable);
+    }
     public void save(Teacher teacher) {
         teacherRepository.save(teacher);
     }

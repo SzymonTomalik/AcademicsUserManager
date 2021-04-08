@@ -21,7 +21,6 @@ public class Teacher extends AcademicUser {
     public Teacher() {
     }
 
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -29,7 +28,6 @@ public class Teacher extends AcademicUser {
         Teacher teacher = (Teacher) o;
         return getId().equals(teacher.getId()) && getAge() == teacher.getAge() && getFirstname().equals(teacher.getFirstname()) && getLastname().equals(teacher.getLastname()) && getEmail().equals(teacher.getEmail()) && getMajoringIn().equals(teacher.getMajoringIn());
     }
-
 
     @Override
     public int hashCode() {

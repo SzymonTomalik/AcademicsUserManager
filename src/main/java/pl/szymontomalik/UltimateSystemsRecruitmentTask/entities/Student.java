@@ -52,7 +52,6 @@ public class Student extends AcademicUser {
                 ", age=" + getAge() +
                 ", email='" + getEmail() + '\'' +
                 ", fieldOfStudy='" + fieldOfStudy + '\'' +
-
                 '}';
     }
 }

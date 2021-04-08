@@ -3,8 +3,7 @@ package pl.szymontomalik.UltimateSystemsRecruitmentTask.model;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Column;
-import javax.persistence.MappedSuperclass;
+import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.Size;
@@ -14,6 +13,9 @@ import java.util.Objects;
 @Getter
 @Setter
 public class AcademicUser {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     @Size(min = 2)
     private String firstname;
     private String lastname;
@@ -23,7 +25,8 @@ public class AcademicUser {
     @Column(unique = true)
     private String email;
 
-    public AcademicUser(String firstname, String lastname, int age, String email) {
+    public AcademicUser(Long id, String firstname, String lastname, int age, String email) {
+        this.id = id;
         this.firstname = firstname;
         this.lastname = lastname;
         this.age = age;
@@ -36,7 +39,8 @@ public class AcademicUser {
     @Override
     public String toString() {
         return "AcademicUser{" +
-                "firstname='" + firstname + '\'' +
+                "id=" + id +
+                ", firstname='" + firstname + '\'' +
                 ", lastname='" + lastname + '\'' +
                 ", age=" + age +
                 ", email='" + email + '\'' +
@@ -48,11 +52,11 @@ public class AcademicUser {
         if (this == o) return true;
         if (!(o instanceof AcademicUser)) return false;
         AcademicUser that = (AcademicUser) o;
-        return getAge() == that.getAge() && getFirstname().equals(that.getFirstname()) && getLastname().equals(that.getLastname()) && getEmail().equals(that.getEmail());
+        return getAge() == that.getAge() && getId().equals(that.getId()) && getFirstname().equals(that.getFirstname()) && getLastname().equals(that.getLastname()) && getEmail().equals(that.getEmail());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getFirstname(), getLastname(), getAge(), getEmail());
+        return Objects.hash(getId(), getFirstname(), getLastname(), getAge(), getEmail());
     }
 }

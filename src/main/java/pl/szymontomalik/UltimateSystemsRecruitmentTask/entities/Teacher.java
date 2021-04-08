@@ -4,7 +4,8 @@ import lombok.Getter;
 import lombok.Setter;
 import pl.szymontomalik.UltimateSystemsRecruitmentTask.model.AcademicUser;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.ManyToMany;
 import java.util.Objects;
 import java.util.Set;
 
@@ -12,9 +13,7 @@ import java.util.Set;
 @Getter
 @Setter
 public class Teacher extends AcademicUser {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+
     private String majoringIn;
     @ManyToMany (mappedBy = "teachers")
     private Set<Student> students;
@@ -28,19 +27,19 @@ public class Teacher extends AcademicUser {
         if (this == o) return true;
         if (!(o instanceof Teacher)) return false;
         Teacher teacher = (Teacher) o;
-        return getAge() == teacher.getAge() && getFirstname().equals(teacher.getFirstname()) && getLastname().equals(teacher.getLastname()) && getEmail().equals(teacher.getEmail()) && getMajoringIn().equals(teacher.getMajoringIn());
+        return getId().equals(teacher.getId()) && getAge() == teacher.getAge() && getFirstname().equals(teacher.getFirstname()) && getLastname().equals(teacher.getLastname()) && getEmail().equals(teacher.getEmail()) && getMajoringIn().equals(teacher.getMajoringIn());
     }
 
 
     @Override
     public int hashCode() {
-        return Objects.hash(getFirstname(), getLastname(), getAge(), getEmail(), getMajoringIn());
+        return Objects.hash(getId(), getFirstname(), getLastname(), getAge(), getEmail(), getMajoringIn());
     }
 
     @Override
     public String toString() {
         return "Teacher{" +
-                "id=" + id +
+                "id=" + getId() + '\'' +
                 ", firstname='" + getFirstname() + '\'' +
                 ", lastname='" + getLastname() + '\'' +
                 ", age=" + getAge() +

@@ -26,9 +26,6 @@ public class TeacherController {
                                         @Param("sortDir") String sortDir,
                                         @Param("keyword") String keyword,
                                         @Param("flag") boolean flag) {
-        return service.selectUserList(model, pageNum, sortField, sortDir, keyword, flag);
-
+        return service.selectUserListForTeacherPage(model, pageNum, sortField, sortDir, keyword, flag);
     }
-
-
 }

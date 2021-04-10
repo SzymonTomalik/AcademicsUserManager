@@ -21,34 +21,52 @@ public class TeacherService {
     private final TeacherRepository teacherRepository;
     private final StudentRepository studentRepository;
 
-    public Page<Teacher> listAll(int pageNum, String sortField, String sortDir) {
-        Pageable pageable = PageRequest.of(pageNum-1, 5, sortDir.equals("asc") ? Sort.by(sortField).ascending() : Sort.by(sortField).descending());
+    public Page<Teacher> pageAll(int pageNum, String sortField, String sortDir) {
+        Pageable pageable = PageRequest.of(pageNum - 1, 5, sortDir.equals("asc") ? Sort.by(sortField).ascending() : Sort.by(sortField).descending());
         return teacherRepository.findAll(pageable);
     }
-    public Page<Teacher> listAllTeacherByStudentId(Long studentId, int pageNum, String sortField, String sortDir) {
-        Pageable pageable = PageRequest.of(pageNum-1, 5, sortDir.equals("asc") ? Sort.by(sortField).ascending() : Sort.by(sortField).descending());
-        Student student= studentRepository.findById(studentId).get();
-        Hibernate.initialize(student.getTeachers());
-        List<Teacher> teachers = new ArrayList<>(List.copyOf(student.getTeachers()));
-        List<Long> idList = new ArrayList<>();
-        for (Teacher t:teachers) {
-            idList.add(t.getId());
+
+    public Page<Teacher> pageAllByStudentId(int pageNum, String sortField, String sortDir, String keyword) {
+        Pageable pageable = PageRequest.of(pageNum - 1, 5, sortDir.equals("asc") ? Sort.by(sortField).ascending() : Sort.by(sortField).descending());
+        if (keyword != null) {
+            List<Student> studentList = studentRepository.findAll(keyword);
+            List<Teacher> teachers = new ArrayList<>();
+            for (Student s : studentList
+            ) {
+                Hibernate.initialize(s.getTeachers());
+                for (Teacher t : s.getTeachers()
+                ) {
+                    if (!teachers.contains(t)) {
+                        teachers.add(t);
+                    }
+                }
+            }
+            List<Long> idList = new ArrayList<>();
+            for (Teacher t : teachers) {
+                idList.add(t.getId());
+            }
+            return teacherRepository.findByIdIn(idList, pageable);
         }
-        return teacherRepository.findByIdIn(idList,pageable);
+        return teacherRepository.findAll(pageable);
     }
-    public Page<Teacher>listAllTeachersByKeyword(int pageNum, String sortField, String sortDir, String keyword) {
+
+
+    public Page<Teacher> pageAllByKeyword(int pageNum, String sortField, String sortDir, String keyword) {
         Pageable pageable = PageRequest.of(pageNum - 1, 5, sortDir.equals("asc") ? Sort.by(sortField).ascending() : Sort.by(sortField).descending());
         if (keyword != null) {
             return teacherRepository.findAll(keyword, pageable);
         }
         return teacherRepository.findAll(pageable);
     }
+
     public void save(Teacher teacher) {
         teacherRepository.save(teacher);
     }
+
     public Teacher get(Long id) {
         return teacherRepository.findById(id).get();
     }
+
     public void delete(Long id) {
         teacherRepository.deleteById(id);
     }

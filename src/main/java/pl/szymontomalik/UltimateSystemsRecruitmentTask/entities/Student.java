@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.validation.constraints.NotBlank;
 import java.util.Objects;
 import java.util.Set;
 
@@ -16,6 +17,7 @@ import java.util.Set;
 @Setter
 public class Student extends AcademicUser {
 
+    @NotBlank(message = "{NotBlank.Message}")
     private String fieldOfStudy;
     @ManyToMany
     @JoinTable(name = "students_teachers", joinColumns = @JoinColumn(name = "student_id"), inverseJoinColumns = @JoinColumn(name = "teacher_id"))

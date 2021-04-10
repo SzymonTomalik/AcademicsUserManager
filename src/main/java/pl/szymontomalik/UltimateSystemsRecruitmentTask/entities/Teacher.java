@@ -6,6 +6,7 @@ import pl.szymontomalik.UltimateSystemsRecruitmentTask.model.AcademicUser;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
+import javax.validation.constraints.NotBlank;
 import java.util.Objects;
 import java.util.Set;
 
@@ -13,7 +14,7 @@ import java.util.Set;
 @Getter
 @Setter
 public class Teacher extends AcademicUser {
-
+    @NotBlank(message = "{NotBlank.Message}")
     private String majoringIn;
     @ManyToMany (mappedBy = "teachers")
     private Set<Student> students;

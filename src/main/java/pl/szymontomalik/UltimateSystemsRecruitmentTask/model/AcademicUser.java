@@ -4,9 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 import java.util.Objects;
 
 @MappedSuperclass
@@ -16,13 +14,17 @@ public class AcademicUser {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Size(min = 2)
+    @Size(min = 2, message = "{Size.Message}")
+    @NotBlank(message = "{NotBlank.Message}")
     private String firstname;
+    @NotBlank(message = "{NotBlank.Message}")
     private String lastname;
-    @Min(19)
+    @NotNull(message = "{NotNull.Message}")
+    @Min(value = 19, message = "{Min.Message.Age}")
     private int age;
-    @Email
+    @Email(message = "{Email.Message}")
     @Column(unique = true)
+    @NotBlank(message = "{NotBlank.Message}")
     private String email;
 
     public AcademicUser(Long id, String firstname, String lastname, int age, String email) {

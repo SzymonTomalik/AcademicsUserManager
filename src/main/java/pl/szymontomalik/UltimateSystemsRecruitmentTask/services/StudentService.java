@@ -1,7 +1,6 @@
 package pl.szymontomalik.UltimateSystemsRecruitmentTask.services;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.hibernate.Hibernate;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -22,12 +21,12 @@ public class StudentService {
     private final StudentRepository studentRepository;
     private final TeacherRepository teacherRepository;
 
-    public Page<Student> listAll(int pageNum, String sortField, String sortDir) {
+    public Page<Student> pageAll(int pageNum, String sortField, String sortDir) {
         Pageable pageable = PageRequest.of(pageNum - 1, 5, sortDir.equals("asc") ? Sort.by(sortField).ascending() : Sort.by(sortField).descending());
         return studentRepository.findAll(pageable);
     }
 
-    public Page<Student> listAllStudentByTeacherId(int pageNum, String sortField, String sortDir, String keyword) {
+    public Page<Student> pageAllByTeacherId(int pageNum, String sortField, String sortDir, String keyword) {
         Pageable pageable = PageRequest.of(pageNum - 1, 5, sortDir.equals("asc") ? Sort.by(sortField).ascending() : Sort.by(sortField).descending());
         if (keyword != null) {
             List<Teacher> teacherList = teacherRepository.findAll(keyword);
@@ -35,8 +34,10 @@ public class StudentService {
             for (Teacher t : teacherList) {
                 Hibernate.initialize(t.getStudents());
                 for (Student s : t.getStudents()) {
-                    if (!students.contains(s))
+                    if (!students.contains(s)) {
                         students.add(s);
+
+                    }
                 }
             }
             List<Long> idList = new ArrayList<>();
@@ -44,6 +45,14 @@ public class StudentService {
                 idList.add(s.getId());
             }
             return studentRepository.findByIdIn(idList, pageable);
+        }
+        return studentRepository.findAll(pageable);
+    }
+
+    public Page<Student> pageAllByKeyword(int pageNum, String sortField, String sortDir, String keyword) {
+        Pageable pageable = PageRequest.of(pageNum - 1, 5, sortDir.equals("asc") ? Sort.by(sortField).ascending() : Sort.by(sortField).descending());
+        if (keyword != null) {
+            return studentRepository.findAll(keyword, pageable);
         }
         return studentRepository.findAll(pageable);
     }
@@ -59,6 +68,4 @@ public class StudentService {
     public void delete(Long id) {
         studentRepository.deleteById(id);
     }
-
-
 }

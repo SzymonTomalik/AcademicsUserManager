@@ -11,15 +11,16 @@ import pl.szymontomalik.UltimateSystemsRecruitmentTask.services.ViewService;
 
 @Controller
 @RequiredArgsConstructor
+@RequestMapping("/students")
 public class StudentController {
     private final ViewService service;
 
-    @RequestMapping("/students")
+    @RequestMapping("")
     public String viewStudentList(Model model) {
         return viewPageOfStudentList(model, 1, "id", "asc", null, true);
     }
 
-    @GetMapping("/students/page/{pageNum}")
+    @GetMapping("/page/{pageNum}")
     public String viewPageOfStudentList(Model model, @PathVariable(name = "pageNum") int pageNum,
                                         @Param("sortField") String sortField,
                                         @Param("sortDir") String sortDir,

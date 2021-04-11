@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div align="center">
+    <h1>Szczegóły użytkownika</h1>
+    <br>
+    <h2 th:text="${userDetails.firstname}+' '+${userDetails.lastname}"></h2>
+    <br>
+    <br>
+    <div>
+        <table th:object="${userDetails}">
+            <tr>
+                <td>Imię:</td>
+                <td>
+                    <div th:text="*{firstname}"></div>
+                </td>
+            </tr>
+            <tr>
+                <td>Nazwisko:</td>
+                <td>
+                    <div th:text="*{lastname}"></div>
+                </td>
+            </tr>
+            <tr>
+                <td>Email:</td>
+                <td>
+                    <div th:text="*{email}"></div>
+                </td>
+            </tr>
+            <tr>
+                <td>Wiek:</td>
+                <td>
+                    <div th:text="*{age}"></div>
+                </td>
+            </tr>
+            <tr>
+                <td>Kierunek:</td>
+                <td>
+                    <div th:text="*{fieldOfStudy}"></div>
+                </td>
+            </tr>
+        </table>
+        <br>
+        <a th:href="@{'/students/edit/' + ${userDetails.id}}">
+            <button type="button">Edytuj</button>
+        </a>
+
+        <br>
+        <br>
+        <br>
+        <div align="center">
+            <h2>Lista Wykładowców</h2>
+            <table border="1" cellpadding="15">
+                <thead>
+                <tr>
+                    <th>
+                        <a th:href="@{'/students/details/'+ ${userDetails.id} +'/page/' + ${currentPage} + '?sortField=id&sortDir=' + ${reverseSortDir}}">nr
+                            ID</a>
+                    </th>
+                    <th>
+                        <a th:href="@{'/students/details/'+ ${userDetails.id} +'/page/' + ${currentPage} + '?sortField=firstname&sortDir=' + ${reverseSortDir}}">Imię</a>
+                    </th>
+                    <th>
+                        <a th:href="@{'/students/details/'+ ${userDetails.id} +'/page/' + ${currentPage} + '?sortField=lastname&sortDir=' + ${reverseSortDir}}">Nazwisko</a>
+                    </th>
+                    <th>
+                        <a th:href="@{'/students/details/'+ ${userDetails.id} +'/page/' + ${currentPage} + '?sortField=email&sortDir=' + ${reverseSortDir}}">Email</a>
+                    </th>
+                    <th>
+                        <a th:href="@{'/students/details/'+ ${userDetails.id} +'/page/' + ${currentPage} + '?sortField=majoringIn&sortDir=' + ${reverseSortDir}}">Przedmiot</a>
+                    </th>
+
+                    <th>Narzędzia</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="teacher : ${userList}">
+                    <td th:text="${teacher.id}">nr ID</td>
+                    <td th:text="${teacher.firstname}">Imię</td>
+                    <td th:text="${teacher.lastname}">Nazwisko</td>
+                    <td th:text="${teacher.email}">Email</td>
+                    <td th:text="${teacher.majoringIn}">Przedmiot</td>
+                    <td>
+                        <a th:href="@{'/students/details/' + ${userDetails.id} + '/delete/teacher/' + ${teacher.id}}">Usuń z listy Wykładowców</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+</body>
+</html>

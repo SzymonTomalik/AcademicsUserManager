@@ -15,7 +15,10 @@ import java.util.Set;
 public class Teacher extends AcademicUser {
     @NotBlank(message = "{NotBlank.Message}")
     private String majoringIn;
-    @ManyToMany
+    @ManyToMany(cascade = {
+            CascadeType.MERGE,
+            CascadeType.REFRESH,
+            CascadeType.PERSIST})
     @JoinTable(name = "teachers_students", joinColumns = @JoinColumn(name = "teacher_id"), inverseJoinColumns = @JoinColumn(name = "student_id"))
     private Set<Student> students;
 

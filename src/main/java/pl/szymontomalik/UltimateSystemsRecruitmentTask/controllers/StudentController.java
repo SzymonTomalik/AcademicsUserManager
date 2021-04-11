@@ -8,6 +8,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import pl.szymontomalik.UltimateSystemsRecruitmentTask.entities.Student;
 import pl.szymontomalik.UltimateSystemsRecruitmentTask.services.StudentService;
+import pl.szymontomalik.UltimateSystemsRecruitmentTask.services.TeacherService;
 import pl.szymontomalik.UltimateSystemsRecruitmentTask.services.ViewService;
 
 import javax.validation.Valid;
@@ -18,6 +19,7 @@ import javax.validation.Valid;
 public class StudentController {
     private final ViewService service;
     private final StudentService studentService;
+    private final TeacherService teacherService;
 
     @RequestMapping("")
     public String viewStudentList(Model model) {
@@ -69,6 +71,26 @@ public class StudentController {
     public String deleteStudent(@PathVariable("id") Long studentId) {
         studentService.delete(studentId);
         return "redirect:/students";
+    }
+
+    @RequestMapping("/details/{id}")
+    public String showStudentDetails(Model model, @PathVariable("id") Long studentId) {
+        return pageStudentDetails(model, studentId, 1, "id", "asc");
+    }
+
+    @RequestMapping("/details/{id}/page/{pageNum}")
+    public String pageStudentDetails(Model model, @PathVariable("id") Long studentId, @PathVariable(name = "pageNum") int pageNum,
+                                     @Param("sortField") String sortField,
+                                     @Param("sortDir") String sortDir) {
+        model.addAttribute("userDetails",studentService.get(studentId));
+        service.pageTeachersByStudentId(model, pageNum, sortField, sortDir, studentId);
+        return "studentDetails";
+    }
+    @RequestMapping("/details/{studentId}/delete/teacher/{teacherId}")
+    public String deleteTeacherFromStudentList(@PathVariable("studentId") Long studentId, @PathVariable("teacherId") Long teacherId) {
+        studentService.deleteTeacherFromList(studentId, teacherId);
+        teacherService.deleteStudentFromList(teacherId,studentId);
+        return "redirect:/students/details/"+studentId;
     }
 
 }

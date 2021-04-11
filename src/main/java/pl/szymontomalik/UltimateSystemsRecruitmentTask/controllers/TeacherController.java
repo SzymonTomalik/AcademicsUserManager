@@ -7,6 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import pl.szymontomalik.UltimateSystemsRecruitmentTask.entities.Teacher;
+import pl.szymontomalik.UltimateSystemsRecruitmentTask.services.StudentService;
 import pl.szymontomalik.UltimateSystemsRecruitmentTask.services.TeacherService;
 import pl.szymontomalik.UltimateSystemsRecruitmentTask.services.ViewService;
 
@@ -18,6 +19,7 @@ import javax.validation.Valid;
 public class TeacherController {
     private final ViewService service;
     private final TeacherService teacherService;
+    private final StudentService studentService;
 
     @RequestMapping("")
     public String viewTeacherList(Model model) {
@@ -70,6 +72,27 @@ public class TeacherController {
     public String deleteTeacher(@PathVariable("id") Long teacherId) {
         teacherService.delete(teacherId);
         return "redirect:/teachers";
+    }
+
+    @RequestMapping("/details/{id}")
+    public String showTeacherDetails(Model model, @PathVariable("id") Long teacherId) {
+        return pageTeacherDetails(model, teacherId, 1, "id", "asc");
+    }
+
+    @RequestMapping("/details/{id}/page/{pageNum}")
+    public String pageTeacherDetails(Model model, @PathVariable("id") Long teacherId, @PathVariable(name = "pageNum") int pageNum,
+                                     @Param("sortField") String sortField,
+                                     @Param("sortDir") String sortDir) {
+        model.addAttribute("userDetails", teacherService.get(teacherId));
+        service.pageStudentsByTeacherId(model, pageNum, sortField, sortDir, teacherId);
+        return "teacherDetails";
+    }
+
+    @RequestMapping("/details/{teacherId}/delete/student/{studentId}")
+    public String deleteTeacherFromStudentList(@PathVariable("studentId") Long studentId, @PathVariable("teacherId") Long teacherId) {
+        teacherService.deleteStudentFromList(teacherId, studentId);
+        studentService.deleteTeacherFromList(studentId, teacherId);
+        return "redirect:/teachers/details/" + teacherId;
     }
 
 }

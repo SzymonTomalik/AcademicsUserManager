@@ -27,7 +27,7 @@ public class TeacherService {
         return teacherRepository.findAll(pageable);
     }
 
-    public Page<Teacher> pageAllByStudentId(int pageNum, String sortField, String sortDir, String keyword) {
+    public Page<Teacher> pageAllByStudentIdWithKeyword(int pageNum, String sortField, String sortDir, String keyword) {
         Pageable pageable = PageRequest.of(pageNum - 1, 5, sortDir.equals("asc") ? Sort.by(sortField).ascending() : Sort.by(sortField).descending());
         if (keyword != null) {
             List<Student> studentList = studentRepository.findAll(keyword);
@@ -49,6 +49,24 @@ public class TeacherService {
             return teacherRepository.findByIdIn(idList, pageable);
         }
         return teacherRepository.findAll(pageable);
+    }
+
+    public Page<Teacher> pageAllByStudentId(Long studentId, int pageNum, String sortField, String sortDir) {
+        Pageable pageable = PageRequest.of(pageNum - 1, 5, sortDir.equals("asc") ? Sort.by(sortField).ascending() : Sort.by(sortField).descending());
+        Student student = studentRepository.getOne(studentId);
+        List<Teacher> teachers = new ArrayList<>();
+        Hibernate.initialize(student.getTeachers());
+        for (Teacher t : student.getTeachers()) {
+            if (!teachers.contains(t)) {
+                teachers.add(t);
+            }
+        }
+        List<Long> idList = new ArrayList<>();
+        for (Teacher t : teachers) {
+            idList.add(t.getId());
+        }
+        return teacherRepository.findByIdIn(idList, pageable);
+
     }
 
 
@@ -81,4 +99,15 @@ public class TeacherService {
         teacherRepository.save(teacher);
         teacherRepository.deleteById(id);
     }
+
+    public void deleteStudentFromList(Long teacherId, Long studentId) {
+        Teacher teacher = teacherRepository.getOne(teacherId);
+        Student student = studentRepository.getOne(studentId);
+        Hibernate.initialize(teacher.getStudents());
+        Set<Student> students = teacher.getStudents();
+        students.remove(student);
+        teacher.setStudents(students);
+        teacherRepository.save(teacher);
+    }
+
 }

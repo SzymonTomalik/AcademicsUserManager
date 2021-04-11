@@ -20,62 +20,61 @@ public class ViewService {
 
     public String selectUserListForTeacherPage(Model model, int pageNum, String sortField, String sortDir, String keyword, boolean flag) {
         if (!flag) {
-            return pageStudentsByTeacherId(model, pageNum, sortField, sortDir, keyword);
+            pageStudentsByTeacherIdWithKeyword(model, pageNum, sortField, sortDir, keyword);
+            return "studentsByTeacherId";
         } else {
             if (keyword != null) {
-                return pageTeachersByKeyword(model, pageNum, sortField, sortDir, keyword);
+                pageTeachersByKeyword(model, pageNum, sortField, sortDir, keyword);
             } else {
-                return pageAllTeachers(model, pageNum, sortField, sortDir);
+                pageAllTeachers(model, pageNum, sortField, sortDir);
             }
+            return "teachers";
         }
     }
 
-    private String pageAllTeachers(Model model, int pageNum, String sortField, String sortDir) {
+    private void pageAllTeachers(Model model, int pageNum, String sortField, String sortDir) {
         Page<Teacher> page = teacherService.pageAll(pageNum, sortField, sortDir);
         setViewAttributes(model, pageNum, sortField, sortDir, page, null, true);
-        return "teachers";
     }
 
-    private String pageTeachersByKeyword(Model model, int pageNum, String sortField, String sortDir, String keyword) {
+    private void pageTeachersByKeyword(Model model, int pageNum, String sortField, String sortDir, String keyword) {
         Page<Teacher> page = teacherService.pageAllByKeyword(pageNum, sortField, sortDir, keyword);
         setViewAttributes(model, pageNum, sortField, sortDir, page, keyword, true);
-        return "teachers";
     }
 
-    private String pageStudentsByTeacherId(Model model, int pageNum, String sortField, String sortDir, String keyword) {
-        Page<Student> page = studentService.pageAllByTeacherId(pageNum, sortField, sortDir, keyword);
+    private void pageStudentsByTeacherIdWithKeyword(Model model, int pageNum, String sortField, String sortDir, String keyword) {
+        Page<Student> page = studentService.pageAllByTeacherIdWithKeyword(pageNum, sortField, sortDir, keyword);
         setViewAttributes(model, pageNum, sortField, sortDir, page, keyword, false);
-        return "studentsByTeacherId";
     }
 
     public String selectUserListForStudentPage(Model model, int pageNum, String sortField, String sortDir, String keyword, boolean flag) {
         if (!flag) {
-            return pageTeachersByStudentId(model, pageNum, sortField, sortDir, keyword);
+           pageTeachersByStudentIdWithKeyword(model, pageNum, sortField, sortDir, keyword);
+            return "teachersByStudentId";
         } else {
             if (keyword != null) {
-                return pageStudentsByKeyword(model, pageNum, sortField, sortDir, keyword);
+                pageStudentsByKeyword(model, pageNum, sortField, sortDir, keyword);
             } else {
-                return pageAllStudents(model, pageNum, sortField, sortDir);
+                pageAllStudents(model, pageNum, sortField, sortDir);
             }
+            return "students";
         }
     }
 
-    private String pageAllStudents(Model model, int pageNum, String sortField, String sortDir) {
+    private void pageAllStudents(Model model, int pageNum, String sortField, String sortDir) {
         Page<Student> page = studentService.pageAll(pageNum, sortField, sortDir);
         setViewAttributes(model, pageNum, sortField, sortDir, page, null, true);
-        return "students";
+
     }
 
-    private String pageStudentsByKeyword(Model model, int pageNum, String sortField, String sortDir, String keyword) {
+    private void pageStudentsByKeyword(Model model, int pageNum, String sortField, String sortDir, String keyword) {
         Page<Student> page = studentService.pageAllByKeyword(pageNum, sortField, sortDir, keyword);
         setViewAttributes(model, pageNum, sortField, sortDir, page, keyword, true);
-        return "students";
     }
 
-    private String pageTeachersByStudentId(Model model, int pageNum, String sortField, String sortDir, String keyword) {
-        Page<Teacher> page = teacherService.pageAllByStudentId(pageNum, sortField, sortDir, keyword);
+    public void pageTeachersByStudentIdWithKeyword(Model model, int pageNum, String sortField, String sortDir, String keyword) {
+        Page<Teacher> page = teacherService.pageAllByStudentIdWithKeyword(pageNum, sortField, sortDir, keyword);
         setViewAttributes(model, pageNum, sortField, sortDir, page, keyword, false);
-        return "teachersByStudentId";
     }
 
     private void setViewAttributes(Model model, @PathVariable(name = "pageNum") int pageNum, @Param("sortField") String sortField, @Param("sortDir") String sortDir, Page<? extends AcademicUser> page, @Param("keyword") String keyword, @Param("flag") boolean flag) {
@@ -94,5 +93,15 @@ public class ViewService {
         model.addAttribute("keyword", keyword);
         model.addAttribute("flag", flag);
 
+    }
+
+    public void pageTeachersByStudentId(Model model, int pageNum, String sortField, String sortDir, Long studentId) {
+        Page<Teacher> page = teacherService.pageAllByStudentId(studentId, pageNum, sortField, sortDir);
+        setViewAttributes(model, pageNum, sortField, sortDir, page, null, false);
+    }
+
+    public void pageStudentsByTeacherId(Model model, int pageNum, String sortField, String sortDir, Long teacherId) {
+        Page<Student> page= studentService.pageAllByTeacherId(teacherId,pageNum,sortField,sortDir);
+        setViewAttributes(model, pageNum, sortField, sortDir, page, null, false);
     }
 }

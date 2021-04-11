@@ -66,11 +66,7 @@
             <td th:text="${student.age}">Wiek</td>
             <td th:text="${student.email}">Email</td>
             <td th:text="${student.fieldOfStudy}">Kierunek</td>
-            <td>
-                <a th:href="@{'/edit/' + ${student.id}}">Edytuj</a>
-                &nbsp;&nbsp;&nbsp;&nbsp;
-                <a th:href="@{'/delete/' + ${student.id}}">Usuń</a>
-                &nbsp;&nbsp;&nbsp;&nbsp;
+            <td>&nbsp;&nbsp;
                 <a th:href="@{'/details/' + ${student.id}}">Szczegóły</a>
             </td>
         </tr>

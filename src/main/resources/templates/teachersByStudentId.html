@@ -67,10 +67,6 @@
             <td th:text="${teacher.email}">Email</td>
             <td th:text="${teacher.majoringIn}">Przedmiot</td>
             <td>
-                <a th:href="@{'/edit/' + ${teacher.id}}">Edytuj</a>
-                &nbsp;&nbsp;&nbsp;&nbsp;
-                <a th:href="@{'/delete/' + ${teacher.id}}">Usuń</a>
-                &nbsp;&nbsp;&nbsp;&nbsp;
                 <a th:href="@{'/details/' + ${teacher.id}}">Szczegóły</a>
             </td>
         </tr>

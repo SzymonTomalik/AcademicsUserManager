@@ -6,7 +6,7 @@
 </head>
 <body>
 <div align="center">
-    <h1>Szczegóły użytkownika</h1>
+    <h1>Szczegóły studenta</h1>
     <br>
     <h2 th:text="${userDetails.firstname}+' '+${userDetails.lastname}"></h2>
     <br>
@@ -46,10 +46,18 @@
         </table>
         <br>
         <a th:href="@{'/students/edit/' + ${userDetails.id}}">
-            <button type="button">Edytuj</button>
+            <button type="button">Edytuj Studenta</button>
         </a>
 
-        <br>
+        <br><br>
+        <form th:action="@{'/students/details/'+ ${userDetails.id} +'/add/teacher'}" method="post">
+            <label>Dodaj Wykładowcę:
+                <select name="newTeacher" id="newTeacher">
+                    <option th:each="t:${availableTeachers}" th:value="${t.id}" th:text="${t.firstname + ' ' + t.lastname + ' ('+t.majoringIn+')'}"></option>
+                </select>
+                <input type="submit" value="Dodaj"/>
+            </label>
+        </form>
         <br>
         <br>
         <div align="center">

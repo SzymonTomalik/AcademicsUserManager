@@ -101,12 +101,29 @@ public class StudentService {
     public void deleteTeacherFromList(Long studentId, Long teacherId) {
         Student student = studentRepository.getOne(studentId);
         Teacher teacher = teacherRepository.getOne(teacherId);
-        Hibernate.initialize(student.getTeachers());
         Set<Teacher> teachers = student.getTeachers();
         teachers.remove(teacher);
         student.setTeachers(teachers);
         save(student);
-
     }
 
+    public List<Teacher> findAvailableTeachers(Long studentId) {
+        Student student = studentRepository.getOne(studentId);
+        List<Teacher> allTeachers = teacherRepository.findAll();
+        List<Teacher> availableTeachers = new ArrayList<>();
+        for (Teacher t : allTeachers) {
+            if (!student.getTeachers().contains(t)) {
+                availableTeachers.add(t);
+            }
+        }
+        return availableTeachers;
+    }
+
+    public void addTeacherToMyList(Long studentId, Long teacherId) {
+        Student student = studentRepository.getOne(studentId);
+        Set<Teacher> teachers = student.getTeachers();
+        teachers.add(teacherRepository.getOne(teacherId));
+        student.setTeachers(teachers);
+        studentRepository.save(student);
+    }
 }

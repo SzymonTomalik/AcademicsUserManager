@@ -84,13 +84,23 @@ public class StudentController {
                                      @Param("sortDir") String sortDir) {
         model.addAttribute("userDetails",studentService.get(studentId));
         service.pageTeachersByStudentId(model, pageNum, sortField, sortDir, studentId);
+        model.addAttribute("availableTeachers", studentService.findAvailableTeachers(studentId));
         return "studentDetails";
     }
+
     @RequestMapping("/details/{studentId}/delete/teacher/{teacherId}")
     public String deleteTeacherFromStudentList(@PathVariable("studentId") Long studentId, @PathVariable("teacherId") Long teacherId) {
         studentService.deleteTeacherFromList(studentId, teacherId);
-        teacherService.deleteStudentFromList(teacherId,studentId);
-        return "redirect:/students/details/"+studentId;
+        teacherService.deleteStudentFromList(teacherId, studentId);
+        return "redirect:/students/details/" + studentId;
+    }
+
+    @PostMapping("/details/{id}/add/teacher")
+    public String addTeacher(@PathVariable("id") Long studentId, @RequestParam("newTeacher") Long teacherId) {
+        studentService.addTeacherToMyList(studentId, teacherId);
+        teacherService.addStudentToList(teacherId, studentId);
+        return "redirect:/students/details/" + studentId;
+
     }
 
 }

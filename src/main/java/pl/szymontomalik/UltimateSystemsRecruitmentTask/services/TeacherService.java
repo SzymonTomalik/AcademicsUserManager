@@ -103,11 +103,17 @@ public class TeacherService {
     public void deleteStudentFromList(Long teacherId, Long studentId) {
         Teacher teacher = teacherRepository.getOne(teacherId);
         Student student = studentRepository.getOne(studentId);
-        Hibernate.initialize(teacher.getStudents());
         Set<Student> students = teacher.getStudents();
         students.remove(student);
         teacher.setStudents(students);
         teacherRepository.save(teacher);
     }
 
+    public void addStudentToList(Long teacherId, Long studentId) {
+        Teacher teacher = teacherRepository.getOne(teacherId);
+        Set<Student> students = teacher.getStudents();
+        students.add(studentRepository.getOne(studentId));
+        teacher.setStudents(students);
+        teacherRepository.save(teacher);
+    }
 }

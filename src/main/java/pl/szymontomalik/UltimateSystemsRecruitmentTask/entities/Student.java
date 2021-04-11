@@ -4,7 +4,6 @@ import lombok.Getter;
 import lombok.Setter;
 import pl.szymontomalik.UltimateSystemsRecruitmentTask.model.AcademicUser;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
 import javax.validation.constraints.NotBlank;
@@ -18,12 +17,7 @@ public class Student extends AcademicUser {
 
     @NotBlank(message = "{NotBlank.Message}")
     private String fieldOfStudy;
-    @ManyToMany(mappedBy = "students",
-            cascade = {
-                    CascadeType.MERGE,
-                    CascadeType.REFRESH,
-                    CascadeType.PERSIST
-            })
+    @ManyToMany(mappedBy = "students")
     private Set<Teacher> teachers;
 
     public Student(Long id, String firstname, String lastname, int age, String email, String fieldOfStudy, Set<Teacher> teachers) {

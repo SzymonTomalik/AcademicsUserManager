@@ -4,8 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import pl.szymontomalik.UltimateSystemsRecruitmentTask.model.AcademicUser;
 
-import javax.persistence.Entity;
-import javax.persistence.ManyToMany;
+import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.util.Objects;
 import java.util.Set;
@@ -16,7 +15,8 @@ import java.util.Set;
 public class Teacher extends AcademicUser {
     @NotBlank(message = "{NotBlank.Message}")
     private String majoringIn;
-    @ManyToMany (mappedBy = "teachers")
+    @ManyToMany
+    @JoinTable(name = "teachers_students", joinColumns = @JoinColumn(name = "teacher_id"), inverseJoinColumns = @JoinColumn(name = "student_id"))
     private Set<Student> students;
 
     public Teacher() {

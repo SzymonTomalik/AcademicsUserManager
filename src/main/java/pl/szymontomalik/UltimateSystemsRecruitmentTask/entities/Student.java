@@ -4,10 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import pl.szymontomalik.UltimateSystemsRecruitmentTask.model.AcademicUser;
 
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
+import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.util.Objects;
 import java.util.Set;
@@ -19,8 +16,7 @@ public class Student extends AcademicUser {
 
     @NotBlank(message = "{NotBlank.Message}")
     private String fieldOfStudy;
-    @ManyToMany
-    @JoinTable(name = "students_teachers", joinColumns = @JoinColumn(name = "student_id"), inverseJoinColumns = @JoinColumn(name = "teacher_id"))
+    @ManyToMany(mappedBy = "students")
     private Set<Teacher> teachers;
 
     public Student(Long id, String firstname, String lastname, int age, String email, String fieldOfStudy, Set<Teacher> teachers) {

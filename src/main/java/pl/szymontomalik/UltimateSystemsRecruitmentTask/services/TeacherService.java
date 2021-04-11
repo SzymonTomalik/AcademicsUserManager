@@ -14,6 +14,7 @@ import pl.szymontomalik.UltimateSystemsRecruitmentTask.repositories.TeacherRepos
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -68,6 +69,16 @@ public class TeacherService {
     }
 
     public void delete(Long id) {
+        Teacher teacher = teacherRepository.getOne(id);
+        Hibernate.initialize(teacher.getStudents());
+        for (Student s : teacher.getStudents()
+        ) {
+            Set<Teacher> teachers = s.getTeachers();
+            Hibernate.initialize(teachers);
+            teachers.remove(teacher);
+        }
+        teacher.setStudents(null);
+        teacherRepository.save(teacher);
         teacherRepository.deleteById(id);
     }
 }

@@ -8,7 +8,7 @@
 <div align="center">
 
     <h1>Wykładowcy</h1>
-    <a th:href="@{/new}">Dodaj Nowego Wykładowcę</a>
+    <a th:href="@{/teachers/add}">Dodaj Nowego Wykładowcę</a>
 
     <br/>
     <br/>
@@ -64,13 +64,13 @@
             <td th:text="${teacher.lastname}">Nazwisko</td>
             <td th:text="${teacher.age}">Wiek</td>
             <td th:text="${teacher.email}">Email</td>
-            <td th:text="${teacher.majoringIn}">Kierunek</td>
+            <td th:text="${teacher.majoringIn}">Przedmiot</td>
             <td>
-                <a th:href="@{'/edit/' + ${teacher.id}}">Edytuj</a>
+                <a th:href="@{'/teachers/edit/' + ${teacher.id}}">Edytuj</a>
                 &nbsp;&nbsp;&nbsp;&nbsp;
-                <a th:href="@{'/delete/' + ${teacher.id}}">Usuń</a>
+                <a th:href="@{'/teachers/delete/' + ${teacher.id}}">Usuń</a>
                 &nbsp;&nbsp;&nbsp;&nbsp;
-                <a th:href="@{'/details/' + ${teacher.id}}">Szczegóły</a>
+                <a th:href="@{'/teachers/details/' + ${teacher.id}}">Szczegóły</a>
             </td>
         </tr>
         </tbody>

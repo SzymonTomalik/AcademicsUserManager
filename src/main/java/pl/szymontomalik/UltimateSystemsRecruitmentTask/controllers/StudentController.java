@@ -36,12 +36,12 @@ public class StudentController {
     @GetMapping("/add")
     public String addNewStudentForm(Model model) {
         Student student = new Student();
-        model.addAttribute("student", student);
+        model.addAttribute("newStudent", student);
         return "studentForm";
     }
 
     @PostMapping("/add")
-    public String saveNewStudent(@Valid @ModelAttribute("student") Student student, BindingResult bindingResult) {
+    public String saveNewStudent(@Valid @ModelAttribute("newStudent") Student student, BindingResult bindingResult) {
         if (!bindingResult.hasErrors()) {
             studentService.save(student);
             return "redirect:/students";

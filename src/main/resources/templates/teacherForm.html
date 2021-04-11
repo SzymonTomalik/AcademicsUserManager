@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Add New Teacher</title>
+</head>
+<body>
+<div align="center">
+  <h1>Dodaj Wykładowcę</h1>
+  <br/>
+  <table border="0" cellpadding="10">
+    <form th:action="@{/teachers/add}" th:object="${newTeacher}" method="post">
+      <tr>
+        <td><label for="firstname">Imię</label></td>
+        <td><input type="text" th:field="*{firstname}" id="firstname"></td>
+        <td>
+          <div th:if="${#fields.hasErrors('firstname')}" th:errors="*{firstname}" style="color: red"></div>
+        </td>
+      </tr>
+      <tr>
+        <td><label for="lastname">Nazwisko</label></td>
+        <td><input type="text" th:field="*{lastname}" id="lastname" ></td>
+        <td>
+          <div th:if="${#fields.hasErrors('lastname')}" th:errors="*{lastname}" style="color: red"></div>
+        </td>
+      </tr>
+      </tr>
+      <tr>
+        <td><label for="email">Email</label></td>
+        <td><input type="text" th:field="*{email}" id="email" ></td>
+        <td>
+          <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}" style="color: red"></div>
+        </td>
+      </tr>
+      <tr>
+        <td><label for="age">Wiek</label></td>
+        <td><input type="number" th:field="*{age}" id="age" ></td>
+        <td>
+          <div th:if="${#fields.hasErrors('age')}" th:errors="*{age}" style="color: red"></div>
+        </td>
+      </tr>
+      <tr>
+        <td><label for="majoringIn">Prowadzony przedmiot</label></td>
+        <td><input type="text" th:field="*{majoringIn}" id="majoringIn"></td>
+        <td>
+          <div th:if="${#fields.hasErrors('majoringIn')}" th:errors="*{majoringIn}" style="color: red"></div>
+        </td>
+      </tr>
+      <tr>
+        <td></td>
+        <td><input type="submit" value="Dodaj"></td>
+      </tr>
+    </form>
+  </table>
+</div>
+</body>
+</html>

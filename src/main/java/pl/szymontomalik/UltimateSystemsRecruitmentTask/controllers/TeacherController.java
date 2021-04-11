@@ -37,12 +37,12 @@ public class TeacherController {
     @GetMapping("/add")
     public String addNewTeacherForm(Model model) {
         Teacher teacher = new Teacher();
-        model.addAttribute("teacher", teacher);
+        model.addAttribute("newTeacher", teacher);
         return "teacherForm";
     }
 
     @PostMapping("/add")
-    public String saveNewTeacher(@Valid @ModelAttribute("teacher") Teacher teacher, BindingResult bindingResult) {
+    public String saveNewTeacher(@Valid @ModelAttribute("newTeacher") Teacher teacher, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return "teacherForm";
         }

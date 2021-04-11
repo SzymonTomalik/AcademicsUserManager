@@ -9,7 +9,7 @@
     <h1>Dodaj Studenta</h1>
     <br/>
     <table border="0" cellpadding="10">
-        <form th:action="@{/students/add}" th:object="${student}" method="post">
+        <form th:action="@{/students/add}" th:object="${newStudent}" method="post">
             <tr>
                 <td><label for="firstname">Imię</label></td>
                 <td><input type="text" th:field="*{firstname}" id="firstname"></td>

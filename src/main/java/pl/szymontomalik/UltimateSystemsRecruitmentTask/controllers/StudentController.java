@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import pl.szymontomalik.UltimateSystemsRecruitmentTask.entities.Student;
 import pl.szymontomalik.UltimateSystemsRecruitmentTask.services.StudentService;
 import pl.szymontomalik.UltimateSystemsRecruitmentTask.services.TeacherService;
-import pl.szymontomalik.UltimateSystemsRecruitmentTask.services.ViewService;
+import pl.szymontomalik.UltimateSystemsRecruitmentTask.services.PageSortAndViewService;
 
 import javax.validation.Valid;
 
@@ -17,7 +17,7 @@ import javax.validation.Valid;
 @RequiredArgsConstructor
 @RequestMapping("/students")
 public class StudentController {
-    private final ViewService service;
+    private final PageSortAndViewService service;
     private final StudentService studentService;
     private final TeacherService teacherService;
 

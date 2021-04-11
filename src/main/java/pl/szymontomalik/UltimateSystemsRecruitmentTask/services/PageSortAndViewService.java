@@ -14,7 +14,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class ViewService {
+public class PageSortAndViewService {
     private final TeacherService teacherService;
     private final StudentService studentService;
 

@@ -88,11 +88,9 @@ public class TeacherService {
 
     public void delete(Long id) {
         Teacher teacher = teacherRepository.getOne(id);
-        Hibernate.initialize(teacher.getStudents());
         for (Student s : teacher.getStudents()
         ) {
             Set<Teacher> teachers = s.getTeachers();
-            Hibernate.initialize(teachers);
             teachers.remove(teacher);
         }
         teacher.setStudents(null);

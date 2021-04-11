@@ -4,11 +4,19 @@
     <meta charset="UTF-8">
     <title>Students</title>
 </head>
+<header>
+    <div align="center">
+        <a th:href="@{/}"><button type="button">Strona główna</button></a>
+        <a th:href="@{/students}"><button type="button">Menadżer Studentów</button></a>
+        <a th:href="@{/teachers}"><button type="button">Menadżer Wykładowców</button></a>
+    </div>
+</header>
 <body>
+
 <div align="center">
 
     <h1>Studenci</h1>
-    <a th:href="@{/students/add}">Dodaj Nowego Studenta</a>
+    <a th:href="@{/students/add}"><button type="button">Dodaj Nowego Studenta</button></a>
 
     <br/>
     <br/>
@@ -67,11 +75,11 @@
             <td th:text="${student.email}">Email</td>
             <td th:text="${student.fieldOfStudy}">Kierunek</td>
             <td>
-                <a th:href="@{'/students/edit/' + ${student.id}}">Edytuj</a>
+                <a th:href="@{'/students/edit/' + ${student.id}}"><button type="button">Edytuj</button></a>
                 &nbsp;&nbsp;&nbsp;&nbsp;
-                <a th:href="@{'/students/delete/' + ${student.id}}">Usuń</a>
+                <a th:href="@{'/students/delete/' + ${student.id}}"><button type="button">Usuń</button></a>
                 &nbsp;&nbsp;&nbsp;&nbsp;
-                <a th:href="@{'/students/details/' + ${student.id}}">Szczegóły</a>
+                <a th:href="@{'/students/details/' + ${student.id}}"><button type="button">Szczegóły</button></a>
             </td>
         </tr>
         </tbody>

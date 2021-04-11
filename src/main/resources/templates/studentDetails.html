@@ -4,6 +4,13 @@
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
+<header>
+    <div align="center">
+        <a th:href="@{/}"><button type="button">Strona główna</button></a>
+        <a th:href="@{/students}"><button type="button">Menadżer Studentów</button></a>
+        <a th:href="@{/teachers}"><button type="button">Menadżer Wykładowców</button></a>
+    </div>
+</header>
 <body>
 <div align="center">
     <h1>Szczegóły studenta</h1>
@@ -93,7 +100,7 @@
                     <td th:text="${teacher.email}">Email</td>
                     <td th:text="${teacher.majoringIn}">Przedmiot</td>
                     <td>
-                        <a th:href="@{'/students/details/' + ${userDetails.id} + '/delete/teacher/' + ${teacher.id}}">Usuń z listy Wykładowców</a>
+                        <a th:href="@{'/students/details/' + ${userDetails.id} + '/delete/teacher/' + ${teacher.id}}"><button type="button">Usuń z listy Wykładowców</button></a>
                     </td>
                 </tr>
                 </tbody>

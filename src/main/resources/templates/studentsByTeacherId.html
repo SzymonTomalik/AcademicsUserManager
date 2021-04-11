@@ -5,6 +5,13 @@
     <meta charset="UTF-8">
     <title>Students by TeacherId</title>
 </head>
+<header>
+    <div align="center">
+        <a th:href="@{/}"><button type="button">Strona główna</button></a>
+        <a th:href="@{/students}"><button type="button">Menadżer Studentów</button></a>
+        <a th:href="@{/teachers}"><button type="button">Menadżer Wykładowców</button></a>
+    </div>
+</header>
 <body>
 <div align="center">
 
@@ -54,7 +61,6 @@
             <th>
                 <a th:href="@{'/teachers/page/' + ${currentPage} + '?sortField=fieldOfStudy&sortDir=' + ${reverseSortDir}+ ${keyword != null ?'&keyword=' + keyword :''}+${flag != null ?'&flag='+flag :'' }}">Kierunek</a>
             </th>
-
             <th>Narzędzia</th>
         </tr>
         </thead>
@@ -67,13 +73,12 @@
             <td th:text="${student.email}">Email</td>
             <td th:text="${student.fieldOfStudy}">Kierunek</td>
             <td>&nbsp;&nbsp;
-                <a th:href="@{'/students/details/' + ${student.id}}">Szczegóły</a>
+                <a th:href="@{'/students/details/' + ${student.id}}"><button type="button">Szczegóły</button></a>
             </td>
         </tr>
         </tbody>
     </table>
     <div>&nbsp;</div>
-    <!--    <div><i>Sorted by [[${sortField}]] in [[${sortDir}]] order</i></div>-->
     <div>&nbsp;</div>
     <div th:if="${totalPages > 1}">
         Wszystkich wyników: [[${totalItems}]]
